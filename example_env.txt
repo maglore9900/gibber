@@ -19,6 +19,7 @@ WAKE_WORD = 'hey'
 
 #LISTEN_MODEL will take whisper or google, whisper is the best option but requires additional setup with Nvidia drivers
 LISTEN_MODEL = 'google'
+#TIME_LISTEN is how long it listens before recalibrating for ambient noise. Setting this too low and you wont have time to say your command, too high and it wont adjust for things like background noise/music.
 TIME_LISTEN = '10'
 
 #STREAM SPEAK is used to stream the audio to a service that will convert the text to speech. If you dont want to use this feature set to false, the response will be printed to the console.
