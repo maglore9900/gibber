@@ -22,8 +22,9 @@ LISTEN_MODEL = 'google'
 #TIME_LISTEN is how long it listens before recalibrating for ambient noise. Setting this too low and you wont have time to say your command, too high and it wont adjust for things like background noise/music.
 TIME_LISTEN = '10'
 
-#STREAM SPEAK is used to stream the audio to a service that will convert the text to speech. If you dont want to use this feature set to false, the response will be printed to the console.
+#SPEECH_ENABLED is enabled by default and is what sets the LLM to speak back. Disable if you want it to only print its response
 SPEECH_ENABLED = 'True'
+
 #STREAM SPEAK URL is using the default url for Alltalk. If you dont have all talk you can ignore this, if you want to use a different service, simply replace the url
 STREAM_SPEAK_URL = 'http://127.0.0.1:7851/api/tts-generate'
 

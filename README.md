@@ -56,7 +56,9 @@ All of the easy configuration is done in the .env file. This section will explai
 
 `TIME_LISTEN = '10'`
 
-#STREAM SPEAK is used to stream the audio to a service that will convert the text to speech. If you dont want to use this feature set to false, the response will be printed to the console.
+#SPEECH_ENABLED is used to stream the audio to a service that will convert the text to speech. If you dont want to use this feature set to false, the response will be printed to the console.
 `SPEECH_ENABLED = 'True'`
 
-#STREAM SPEAK URL is using the default url for Alltalk. If you dont have all talk you can ignore this, if you want to use a different service, simply replace the url `STREAM_SPEAK_URL = 'http://127.0.0.1:7851/api/tts-generate'`
+#STREAM SPEAK URL is using the default url for Alltalk. If you dont have all talk you can ignore this, if you want to use a different service, simply replace the url. Even without Alltalk this can respond in a robotic voice.
+
+`STREAM_SPEAK_URL = 'http://127.0.0.1:7851/api/tts-generate'`
