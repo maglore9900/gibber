@@ -1,0 +1,13 @@
+speechrecognition
+pyaudio
+pyttsx3
+python-environ
+openai
+langchain_experimental
+sentence_transformers
+langchain_openai
+python-vlc
+plyer
+noisereduce
+faster-whisper
+pydub
