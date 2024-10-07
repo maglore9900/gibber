@@ -1,4 +1,4 @@
-from modules import adapter, speak
+from modules import adapter, speak_modified as speak
 from prompts import prompts
 import environ
 import os
@@ -13,7 +13,8 @@ char = env("CHARACTER").lower()
 char_prompt = getattr(prompts, char, "You are a helpful assistant.") + "\nAnswer the following request: {query}"
 
 while True:
-    text = spk.listen(int(env("TIME_LISTEN")))
+    # text = spk.listen(int(env("TIME_LISTEN")))
+    text = spk.transcribe(int(env("TIME_LISTEN")))
     if env("WAKE_WORD_ENABLED").lower() == "true":
         if text and env("WAKE_WORD").lower() in text.lower() and env("CHARACTER").lower() in text.lower():
             if "exit" in text.lower():
