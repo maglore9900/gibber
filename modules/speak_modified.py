@@ -85,14 +85,11 @@ class Speak:
 
         return audio_data
 
-    def transcribe(self, time_listen=None):
+    def transcribe(self):
         """
-        Function to transcribe audio from the microphone. Stops when no speech is detected or after time_listen seconds.
+        Function to transcribe audio from the microphone. Stops when no speech is detected.
         """
-        if time_listen:
-            print(f"Listening for up to {time_listen} seconds or until silence is detected.")
-        else:
-            print("Listening until silence is detected.")
+        print("Listening until silence is detected.")
 
         audio_data = self.listen_to_microphone()
 

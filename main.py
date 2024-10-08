@@ -14,7 +14,7 @@ char_prompt = getattr(prompts, char, "You are a helpful assistant.") + "\nAnswer
 
 while True:
     # text = spk.listen(int(env("TIME_LISTEN")))
-    text = spk.transcribe(int(env("TIME_LISTEN")))
+    text = spk.transcribe()
     if env("WAKE_WORD_ENABLED").lower() == "true":
         if text and env("WAKE_WORD").lower() in text.lower() and env("CHARACTER").lower() in text.lower():
             if "exit" in text.lower():
