@@ -27,6 +27,7 @@ class Speak:
         self.noise_threshold = 500  # Initial placeholder for noise threshold
         self.recent_noise_levels = deque(maxlen=30)  # Track recent noise levels for dynamic adjustment
         self.voice = env("ALL_TALK_VOICE")
+        self.silence = int(env("TIME_SILENCE"))
 
         # Initialize transcription models
         if self.model_name == "whisper":
@@ -52,7 +53,7 @@ class Speak:
         print("Listening...")
 
         audio_data = b""
-        silence_duration = 0.5  # Time of silence in seconds before stopping
+        silence_duration = self.silence  # Time of silence in seconds before stopping
         silence_counter = 0
         detected_speech = False
         
@@ -108,6 +109,7 @@ class Speak:
                 try:
                     audio = sr.AudioData(audio_data, self.sample_rate, 2)
                     transcription = self.recognizer.recognize_google(audio)
+                    print(f"Google Transcription: {transcription}")
                     return transcription
                 except:
                     pass

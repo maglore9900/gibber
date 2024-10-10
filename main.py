@@ -13,7 +13,6 @@ char = env("CHARACTER").lower()
 char_prompt = getattr(prompts, char, "You are a helpful assistant.") + "\nAnswer the following request: {query}"
 
 while True:
-    # text = spk.listen(int(env("TIME_LISTEN")))
     text = spk.transcribe()
     if env("WAKE_WORD_ENABLED").lower() == "true":
         if text and env("WAKE_WORD").lower() in text.lower() and env("CHARACTER").lower() in text.lower():
@@ -24,4 +23,12 @@ while True:
                 print(response.content)
                 if env("SPEECH_ENABLED").lower() == "true":
                     spk.stream(response.content)
+    else:
+        if "exit" in text.lower():
+            break
+        response = ad.llm_chat.invoke(char_prompt.format(query=text))
+        if response:
+            print(response.content)
+            if env("SPEECH_ENABLED").lower() == "true":
+                spk.stream(response.content)
         
