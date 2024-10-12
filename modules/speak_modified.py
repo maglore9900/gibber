@@ -28,12 +28,16 @@ class Speak:
         self.recent_noise_levels = deque(maxlen=30)  # Track recent noise levels for dynamic adjustment
         self.voice = env("ALL_TALK_VOICE")
         self.silence = int(env("TIME_SILENCE"))
+        if env("WHISPER_NVIDIA").lower() == "true":
+            self.whisper_gpu = "cuda"
+        else:
+            self.whisper_gpu = "cpu"
 
         # Initialize transcription models
         if self.model_name == "whisper":
             from faster_whisper import WhisperModel
             self.whisper_model_path = "large-v2"
-            self.whisper_model = WhisperModel(self.whisper_model_path, device="cuda")  # Nvidia GPU mode
+            self.whisper_model = WhisperModel(self.whisper_model_path, device=self.whisper_gpu)  
         else:
             self.recognizer = sr.Recognizer()
 
