@@ -50,10 +50,7 @@ All of the easy configuration is done in the .env file. This section will explai
 
 `LISTEN_MODEL='google'`
 
-#If you are using whisper and you have an nvidia GPU, AND you have followed the additional installation steps to get the CUDA drivers, then set the following to True to use the Nvidia card
-`WHISPER_NVIDIA = 'False'`
-
-#TIME_SILENCE is how long the silence needs to be (in seconds) after voice, for it to stop listening and transcribe. This speeds up the process, sending messages, and adjusting for noise.
+#TIME_SILENCE is how long the silence needs to be (in seconds) after voice for it to stop listening and transcribe. This speeds up the process, sending messages, and adjusting for noise.
 `TIME_SILENCE = '2'`
 
 #SPEECH_ENABLED is used to stream the audio to a service that will convert the text to speech. If you dont want to use this feature set to false, the response will be printed to the console.
