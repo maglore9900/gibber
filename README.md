@@ -10,7 +10,9 @@ so basically the steps are pretty simple
 2. install python 3.10 on the system
 3. create a virtual environment using `python -m venv .` in the folder/dir of the code
 4. activate the environment with `Scripts\activate.bat` on windows or `source bin/activate` on linux
-5. run pip install to install all the required modules `pip install -r requirements_windows.txt`
+5. run pip install to install all the required modules `pip install -r requirements.txt`
+   | Note: Gibber leverages your local hardware and on linux that can mean you need to download packages / drivers to get this to work.
+   | Example: on ubuntu you will need to run `sudo apt install portaudio19-dev` the additional packages are going to vary based on the distribution. Easiest way to resolve will be to google the error codes you see. Once you have taken the necessary action, run `pip install -r requirements.txt` again.
 6. then `cp example_env.txt to .env`
 7. open that, and put in your info, like openai key or ollama or whatever
 8. If you are using an Nvidia GPU and dont already have the CUDA toolkit and such, see note below
@@ -21,6 +23,8 @@ so basically the steps are pretty simple
 > Instructions are [Here](docs/cuda.md)
 >
 > If this seems too complicated you can just leave it at its default, which will use google for speech-to-text
+>
+> Note: On linux systems you may see Alsa warnings/errors. Right now they do not affect performance and can generally be ignored.
 
 # Configuration
 
@@ -50,7 +54,10 @@ All of the easy configuration is done in the .env file. This section will explai
 
 `LISTEN_MODEL='google'`
 
-#TIME_SILENCE is how long the silence needs to be (in seconds) after voice for it to stop listening and transcribe. This speeds up the process, sending messages, and adjusting for noise.
+#If you are using whisper and you have an nvidia GPU, AND you have followed the additional installation steps to get the CUDA drivers, then set the following to True to use the Nvidia card
+`WHISPER_NVIDIA = 'False'`
+
+#TIME_SILENCE is how long the silence needs to be (in seconds) after voice, for it to stop listening and transcribe. This speeds up the process, sending messages, and adjusting for noise.
 `TIME_SILENCE = '2'`
 
 #SPEECH_ENABLED is used to stream the audio to a service that will convert the text to speech. If you dont want to use this feature set to false, the response will be printed to the console.
