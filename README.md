@@ -1,6 +1,9 @@
 # gibber
 
-A simple Speech-to-Text (STT) / Text-to-Speech (TTS) wrapper for LLMs
+A simple Speech-to-Text (STT) / Text-to-Speech (TTS) wrapper for LLMs.
+Currently it supports OpenAI and Ollama for local LLM models.
+
+With minor modification it could support other closed source models. The LLM functions are defined in [modules/adapter.py](modules/adapter.py) 
 
 # INSTALLATION
 
