@@ -14,7 +14,7 @@ so basically the steps are pretty simple
    | Note: Gibber leverages your local hardware and on linux that can mean you need to download packages / drivers to get this to work.
    | Example: on ubuntu you will need to run `sudo apt install portaudio19-dev` the additional packages are going to vary based on the distribution. Easiest way to resolve will be to google the error codes you see. Once you have taken the necessary action, run `pip install -r requirements.txt` again.
 6. then `cp example_env.txt to .env`
-7. open that, and put in your info, like openai key or ollama model, or whatever
+7. open the new `.env` file, and put in your info, like openai key or ollama model, or whatever
 8. If you are using an Nvidia GPU and dont already have the CUDA toolkit and such, see note below
 9. then run `python main.py` to start the whole thing up
 
