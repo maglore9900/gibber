@@ -20,10 +20,10 @@ while True:
                 break
             if env("WAKE_WORD").lower() in text.lower() and env("CHARACTER").lower() in text.lower():
                 response = ad.llm_chat.invoke(char_prompt.format(query=text))
-            if response:
-                print(response.content)
-                if env("SPEECH_ENABLED").lower() == "true":
-                    spk.stream(response.content)
+                if response:
+                    print(response.content)
+                    if env("SPEECH_ENABLED").lower() == "true":
+                        spk.stream(response.content)
     else:
         if "exit" in text.lower():
             break
