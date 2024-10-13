@@ -14,7 +14,7 @@ so basically the steps are pretty simple
    | Note: Gibber leverages your local hardware and on linux that can mean you need to download packages / drivers to get this to work.
    | Example: on ubuntu you will need to run `sudo apt install portaudio19-dev` the additional packages are going to vary based on the distribution. Easiest way to resolve will be to google the error codes you see. Once you have taken the necessary action, run `pip install -r requirements.txt` again.
 6. then `cp example_env.txt to .env`
-7. open that, and put in your info, like openai key or ollama or whatever
+7. open that, and put in your info, like openai key or ollama model, or whatever
 8. If you are using an Nvidia GPU and dont already have the CUDA toolkit and such, see note below
 9. then run `python main.py` to start the whole thing up
 
@@ -43,9 +43,11 @@ All of the easy configuration is done in the .env file. This section will explai
 `OLLAMA_URL = 'http://localhost:11434'`
 
 #-----Customization Variables
-#CHARACTER will take any character prompt you have in the [prompts/prompts.py](prompts/prompts.py) file. `CHARACTER = 'bob'`
+#CHARACTER will take any character prompt you have in the [prompts/prompts.py](prompts/prompts.py) file.
 
-#WAKE_WORD_ENABLED: If you want this to listen and attempt to translate all text you can disable wake word. However, speech to text transcription can sometimes return incorrect results when there is background noise. Set to false to disable wake word. When enabled the wake phrase will be wake word + character name, for example "hey max"
+`CHARACTER = 'bob'`
+
+#WAKE_WORD_ENABLED: If you want this to listen and attempt to translate all text you can disable wake word. However, speech to text transcription can sometimes return incorrect results when there is background noise. Set to false to disable wake word. When enabled the wake phrase will be wake word + character name, for example "hey bob"
 `WAKE_WORD_ENABLED = 'True'`
 
 `WAKE_WORD = 'hey'`
