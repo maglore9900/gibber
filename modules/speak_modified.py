@@ -26,6 +26,8 @@ class Speak:
         self.noise_threshold = 500  # Initial placeholder for noise threshold
         self.recent_noise_levels = deque(maxlen=30)  # Track recent noise levels for dynamic adjustment
         self.silence = int(env("TIME_SILENCE")) or 2
+        self.voice = env("ALL_TALK_VOICE") or "male_01.wav"
+        self.url = env("STREAM_SPEAK_URL")
         
         if env("ALL_TALK_ENABLED").lower() == "true":
             self.all_talk = True
@@ -38,8 +40,6 @@ class Speak:
                 self.whisper_gpu = "cuda"
             else:
                 self.whisper_gpu = "cpu"
-            self.voice = env("ALL_TALK_VOICE") or "male_01.wav"
-            self.url = env("STREAM_SPEAK_URL")
             self.whisper_model = WhisperModel(self.whisper_model_path, device=self.whisper_gpu)  
         else:
             self.recognizer = sr.Recognizer()
