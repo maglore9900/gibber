@@ -15,10 +15,11 @@ char_prompt = getattr(prompts, char, "You are a helpful assistant.") + "\nAnswer
 while True:
     text = spk.transcribe()
     if env("WAKE_WORD_ENABLED").lower() == "true":
-        if text and env("WAKE_WORD").lower() in text.lower() and env("CHARACTER").lower() in text.lower():
+        if text: 
             if "exit" in text.lower():
                 break
-            response = ad.llm_chat.invoke(char_prompt.format(query=text))
+            if env("WAKE_WORD").lower() in text.lower() and env("CHARACTER").lower() in text.lower():
+                response = ad.llm_chat.invoke(char_prompt.format(query=text))
             if response:
                 print(response.content)
                 if env("SPEECH_ENABLED").lower() == "true":

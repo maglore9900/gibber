@@ -30,6 +30,7 @@ SPEECH_ENABLED = 'True'
 
 #STREAM SPEAK URL is using the default url for Alltalk. If you dont have all talk you can ignore this, if you want to use a different service, simply replace the url
 STREAM_SPEAK_URL = 'http://127.0.0.1:7851/api/tts-generate'
+ALL_TALK_ENABLED = 'False'
 ALL_TALK_VOICE = 'male_01.wav'
 
 

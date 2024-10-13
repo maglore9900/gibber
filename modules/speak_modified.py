@@ -17,7 +17,6 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 class Speak:
     def __init__(self, env):
-        self.url = env("STREAM_SPEAK_URL")
         self.microphone = sr.Microphone()
         self.engine = pyttsx3.init()
         self.engine.setProperty('rate', 150)
@@ -26,17 +25,21 @@ class Speak:
         self.chunk_size = 1024
         self.noise_threshold = 500  # Initial placeholder for noise threshold
         self.recent_noise_levels = deque(maxlen=30)  # Track recent noise levels for dynamic adjustment
-        self.voice = env("ALL_TALK_VOICE")
-        self.silence = int(env("TIME_SILENCE"))
-        if env("WHISPER_NVIDIA").lower() == "true":
-            self.whisper_gpu = "cuda"
-        else:
-            self.whisper_gpu = "cpu"
+        self.silence = int(env("TIME_SILENCE")) or 2
+        
+        if env("ALL_TALK_ENABLED").lower() == "true":
+            self.all_talk = True
 
         # Initialize transcription models
         if self.model_name == "whisper":
             from faster_whisper import WhisperModel
             self.whisper_model_path = "large-v2"
+            if env("WHISPER_NVIDIA").lower() == "true":
+                self.whisper_gpu = "cuda"
+            else:
+                self.whisper_gpu = "cpu"
+            self.voice = env("ALL_TALK_VOICE") or "male_01.wav"
+            self.url = env("STREAM_SPEAK_URL")
             self.whisper_model = WhisperModel(self.whisper_model_path, device=self.whisper_gpu)  
         else:
             self.recognizer = sr.Recognizer()
@@ -120,63 +123,66 @@ class Speak:
                 
     def stream(self, text):
         # Example parameters
-        voice = self.voice
-        language = "en"
-        output_file = "stream_output.wav"
-        
-        # Encode the text for URL
-        encoded_text = urllib.parse.quote(text)
-        
-        # Create the streaming URL
-        streaming_url = f"http://localhost:7851/api/tts-generate-streaming?text={encoded_text}&voice={voice}&language={language}&output_file={output_file}"
-        
-        try:
-            # Stream the audio data
-            response = requests.get(streaming_url, stream=True)
+        if self.all_talk == True:
+            voice = self.voice
+            language = "en"
+            output_file = "stream_output.wav"
             
-            # Initialize PyAudio
-            p = pyaudio.PyAudio()
-            stream = None
+            # Encode the text for URL
+            encoded_text = urllib.parse.quote(text)
+        
+            # Create the streaming URL
+            streaming_url = f"http://localhost:7851/api/tts-generate-streaming?text={encoded_text}&voice={voice}&language={language}&output_file={output_file}"
             
-            # Process the audio stream in chunks
-            chunk_size = 1024 * 6  # Adjust chunk size if needed
-            audio_buffer = b''
-
-            for chunk in response.iter_content(chunk_size=chunk_size):
-                audio_buffer += chunk
-
-                if len(audio_buffer) < chunk_size:
-                    continue
+            try:
+                # Stream the audio data
+                response = requests.get(streaming_url, stream=True)
                 
-                audio_segment = AudioSegment(
-                    data=audio_buffer,
-                    sample_width=2,  # 2 bytes for 16-bit audio
-                    frame_rate=24000,  # Assumed frame rate, adjust as necessary
-                    channels=1  # Assuming mono audio
-                )
-
-                if stream is None:
-                    # Define stream parameters without any modifications
-                    stream = p.open(format=pyaudio.paInt16,
-                                    channels=1,
-                                    rate=audio_segment.frame_rate,
-                                    output=True)
-
-                # Play the original chunk (without any modification)
-                stream.write(audio_segment.raw_data)
-
-                # Reset buffer
+                # Initialize PyAudio
+                p = pyaudio.PyAudio()
+                stream = None
+                
+                # Process the audio stream in chunks
+                chunk_size = 1024 * 6  # Adjust chunk size if needed
                 audio_buffer = b''
 
-            # Final cleanup
-            if stream:
-                stream.stop_stream()
-                stream.close()
-            p.terminate()
-            
-        except:
+                for chunk in response.iter_content(chunk_size=chunk_size):
+                    audio_buffer += chunk
+
+                    if len(audio_buffer) < chunk_size:
+                        continue
+                    
+                    audio_segment = AudioSegment(
+                        data=audio_buffer,
+                        sample_width=2,  # 2 bytes for 16-bit audio
+                        frame_rate=24000,  # Assumed frame rate, adjust as necessary
+                        channels=1  # Assuming mono audio
+                    )
+
+                    if stream is None:
+                        # Define stream parameters without any modifications
+                        stream = p.open(format=pyaudio.paInt16,
+                                        channels=1,
+                                        rate=audio_segment.frame_rate,
+                                        output=True)
+
+                    # Play the original chunk (without any modification)
+                    stream.write(audio_segment.raw_data)
+
+                    # Reset buffer
+                    audio_buffer = b''
+
+                # Final cleanup
+                if stream:
+                    stream.stop_stream()
+                    stream.close()
+                p.terminate()
+                
+            except:
+                self.engine.say(text)
+                self.engine.runAndWait()
+        else:
             self.engine.say(text)
             self.engine.runAndWait()
-        
 
         
